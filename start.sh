@@ -40,7 +40,8 @@ sleep 5
 if curl -s http://localhost:8000/health > /dev/null; then
     echo "✅ 后端服务启动成功"
 else
-    echo "⚠️  后端服务可能启动异常，但继续启动前端..."
+    echo "⚠️  后端服务可能启动异常，退出..."
+    exit 1
 fi
 
 # 启动前端服务
