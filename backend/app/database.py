@@ -14,8 +14,16 @@ from datetime import datetime
 import sqlite3
 import os
 
-# 数据库文件路径
-DATABASE_URL = "sqlite:///./grand_things.db"
+# 数据库文件路径 - 支持环境变量
+DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./grand_things.db")
+
+# 确保数据目录存在
+if DATABASE_URL.startswith("sqlite:///"):
+    db_path = DATABASE_URL.replace("sqlite:///", "")
+    db_dir = os.path.dirname(db_path)
+    if db_dir and not os.path.exists(db_dir):
+        os.makedirs(db_dir, exist_ok=True)
+        print(f"📁 创建数据库目录: {db_dir}")
 
 # 创建数据库引擎
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})

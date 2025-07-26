@@ -469,20 +469,8 @@ async function extractWechatContent() {
   
   try {
     // 调用后端API提取内容
-    const response = await fetch('/api/events/extract-wechat', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Authorization': `Bearer ${localStorage.getItem('access_token')}`
-      },
-      body: JSON.stringify({ url: wechatUrl.value })
-    })
-    
-    if (!response.ok) {
-      throw new Error('提取内容失败')
-    }
-    
-    const data = await response.json()
+    const response = await eventAPI.extractWechatContent(wechatUrl.value)
+    const data = response.data
     
     // 填充表单数据
     if (data.title) {

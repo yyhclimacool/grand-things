@@ -106,6 +106,11 @@ export const eventAPI = {
   // 获取时间线统计
   async getTimelineStats() {
     return await api.get('/api/events/stats/timeline')
+  },
+
+  // 微信公众号内容提取
+  async extractWechatContent(url) {
+    return await api.post('/api/events/extract-wechat', { url })
   }
 }
 
