@@ -19,6 +19,12 @@
       "dest": "/index.html"
     }
   ],
+  "git": {
+    "deploymentEnabled": {
+      "main": true,
+      "develop": true
+    }
+  },
   "env": {
     "VITE_APP_TITLE": "Grand Things - 大事记",
     "VITE_APP_VERSION": "1.0.0"
