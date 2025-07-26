@@ -1,0 +1,33 @@
+version: '3.8'
+
+services:
+  grand-things:
+    build: .
+    ports:
+      - "80:80"
+    volumes:
+      - ./data:/app/data
+      - ./logs:/var/log
+    environment:
+      - ENV=production
+      - DATABASE_URL=sqlite:///app/data/grand_things.db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # 可选：如果需要使用外部数据库
+  # postgres:
+  #   image: postgres:15
+  #   environment:
+  #     POSTGRES_DB: grand_things
+  #     POSTGRES_USER: grand_things
+  #     POSTGRES_PASSWORD: your_password
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+  #   restart: unless-stopped
+
+volumes:
+  postgres_data: 
