@@ -23,12 +23,12 @@ const appliedTheme = computed(() => {
 const themeOptions = [
   {
     value: THEMES.LIGHT,
-    label: '白天模式',
+    label: '浅色主题',
     icon: 'sunny'
   },
   {
     value: THEMES.DARK,
-    label: '夜晚模式', 
+    label: '深色主题', 
     icon: 'moon'
   },
   {

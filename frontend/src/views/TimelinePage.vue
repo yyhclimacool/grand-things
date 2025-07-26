@@ -724,16 +724,17 @@ function setupInfiniteScroll() {
       flex: 1;
       max-width: calc(50% - 44px);
       min-height: 120px;
-      background-color: #011522;
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
       border-radius: 8px;
       cursor: pointer;
       transition: all 0.3s ease;
-      box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      box-shadow: 0 4px 16px var(--shadow-color);
       overflow: hidden;
 
       &:hover {
         transform: translateY(-3px);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 8px 24px var(--card-shadow-hover);
       }
 
       .tools {
@@ -779,7 +780,7 @@ function setupInfiniteScroll() {
 
           .event-date {
             font-size: 11px;
-            color: rgba(255, 255, 255, 0.6);
+            color: var(--card-text-secondary);
           }
 
           .event-category {
@@ -795,7 +796,7 @@ function setupInfiniteScroll() {
         .event-title {
           font-size: 14px;
           font-weight: 600;
-          color: white;
+          color: var(--card-text-primary);
           margin: 0;
           line-height: 1.3;
           display: -webkit-box;
@@ -872,11 +873,12 @@ function setupInfiniteScroll() {
           width: 220px;
           min-height: 100px;
           transform: translateX(-50%);
-          background-color: #011522;
+          background-color: var(--card-bg);
+          border: 1px solid var(--card-border);
           border-radius: 8px;
           cursor: pointer;
           transition: all 0.3s ease;
-          box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+          box-shadow: 0 4px 16px var(--shadow-color);
           z-index: 2;
           overflow: hidden;
 
@@ -890,7 +892,7 @@ function setupInfiniteScroll() {
 
           &:hover {
             transform: translateX(-50%) translateY(-3px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 24px var(--card-shadow-hover);
           }
 
           .tools {
@@ -936,7 +938,7 @@ function setupInfiniteScroll() {
 
               .event-date {
                 font-size: 10px;
-                color: rgba(255, 255, 255, 0.6);
+                color: var(--card-text-secondary);
               }
 
               .event-category {
@@ -952,7 +954,7 @@ function setupInfiniteScroll() {
             .event-title {
               font-size: 12px;
               font-weight: 600;
-              color: white;
+              color: var(--card-text-primary);
               margin: 0;
               line-height: 1.3;
               display: -webkit-box;

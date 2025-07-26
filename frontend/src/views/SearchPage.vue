@@ -767,7 +767,8 @@ function getCategoryColor(category) {
     gap: 20px;
 
     .event-item {
-      background-color: #011522;
+      background-color: var(--card-bg);
+      border: 1px solid var(--card-border);
       border-radius: 8px;
       cursor: pointer;
       transition: all 0.3s ease;
@@ -776,7 +777,7 @@ function getCategoryColor(category) {
 
       &:hover {
         transform: translateY(-2px);
-        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
+        box-shadow: 0 12px 30px var(--card-shadow-hover);
       }
 
       .tools {
@@ -823,7 +824,7 @@ function getCategoryColor(category) {
           .event-title {
             font-size: 16px;
             font-weight: 600;
-            color: white;
+            color: var(--card-text-primary);
             flex: 1;
             margin-right: 15px;
             line-height: 1.3;
@@ -848,7 +849,7 @@ function getCategoryColor(category) {
 
             .event-date {
               font-size: 11px;
-              color: rgba(255, 255, 255, 0.6);
+              color: var(--card-text-secondary);
             }
 
             .event-category {
@@ -863,7 +864,7 @@ function getCategoryColor(category) {
         }
 
         .event-description {
-          color: rgba(255, 255, 255, 0.8);
+          color: var(--card-text-secondary);
           line-height: 1.5;
           margin-bottom: 12px;
           font-size: 13px;
@@ -890,14 +891,15 @@ function getCategoryColor(category) {
             font-size: 10px;
             padding: 2px 6px;
             border-radius: 10px;
-            background: rgba(255, 255, 255, 0.15);
-            color: rgba(255, 255, 255, 0.9);
-            border: 1px solid rgba(255, 255, 255, 0.2);
+            background: var(--card-tag-bg);
+            color: var(--card-tag-text);
+            border: 1px solid var(--card-tag-border);
             transition: all 0.2s ease;
 
             &:hover {
               transform: scale(1.1);
-              background: rgba(255, 255, 255, 0.25);
+              background: var(--card-tag-bg);
+              opacity: 0.8;
             }
           }
         }
@@ -924,10 +926,10 @@ function getCategoryColor(category) {
             .el-button {
               font-size: 11px;
               padding: 4px 8px;
-              color: rgba(255, 255, 255, 0.7);
+              color: var(--card-text-light);
 
               &:hover {
-                color: white;
+                color: var(--card-text-primary);
               }
 
               &.el-button--danger {

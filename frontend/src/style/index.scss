@@ -22,6 +22,17 @@
   --shadow-color: rgba(0, 0, 0, 0.1);
   --gradient-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
   
+  // 卡片主题变量（浅色）
+  --card-bg: #ffffff;
+  --card-border: #e2e8f0;
+  --card-text-primary: #2d3748;
+  --card-text-secondary: #4a5568;
+  --card-text-light: #a0aec0;
+  --card-tag-bg: rgba(103, 126, 234, 0.1);
+  --card-tag-text: #4a5568;
+  --card-tag-border: rgba(103, 126, 234, 0.2);
+  --card-shadow-hover: rgba(0, 0, 0, 0.15);
+  
   // 布局
   --border-radius: 12px;
   --shadow: 0 10px 25px var(--shadow-color);
@@ -39,6 +50,17 @@ html.theme-dark {
   --border-color: #404040;
   --shadow-color: rgba(0, 0, 0, 0.3);
   --gradient-bg: linear-gradient(135deg, #2d1b69 0%, #11998e 100%);
+  
+  // 卡片主题变量（深色）
+  --card-bg: #011522;
+  --card-border: rgba(255, 255, 255, 0.1);
+  --card-text-primary: #ffffff;
+  --card-text-secondary: rgba(255, 255, 255, 0.8);
+  --card-text-light: rgba(255, 255, 255, 0.6);
+  --card-tag-bg: rgba(255, 255, 255, 0.15);
+  --card-tag-text: rgba(255, 255, 255, 0.9);
+  --card-tag-border: rgba(255, 255, 255, 0.2);
+  --card-shadow-hover: rgba(0, 0, 0, 0.3);
 }
 
 // 浅色主题（显式定义）
@@ -52,6 +74,17 @@ html.theme-light {
   --border-color: #dee2e6;
   --shadow-color: rgba(0, 0, 0, 0.1);
   --gradient-bg: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+  
+  // 卡片主题变量（浅色）
+  --card-bg: #ffffff;
+  --card-border: #e2e8f0;
+  --card-text-primary: #2d3748;
+  --card-text-secondary: #4a5568;
+  --card-text-light: #a0aec0;
+  --card-tag-bg: rgba(103, 126, 234, 0.1);
+  --card-tag-text: #4a5568;
+  --card-tag-border: rgba(103, 126, 234, 0.2);
+  --card-shadow-hover: rgba(0, 0, 0, 0.15);
 }
 
 // 全局重置
