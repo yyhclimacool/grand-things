@@ -11,18 +11,33 @@ app = FastAPI(
     version="1.0.0",
 )
 
-# 配置CORS
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[
+# 配置CORS - 支持开发和生产环境
+import os
+
+
+def get_allowed_origins():
+    """获取允许的跨域来源"""
+    # 开发环境的默认地址
+    origins = [
         "http://localhost:3000",  # React默认端口
         "http://localhost:5173",  # Vite默认端口
-        "http://localhost:50817",  # 当前前端端口
-        "http://localhost:55361",  # 当前前端端口
         "http://127.0.0.1:3000",
         "http://127.0.0.1:5173",
-        "http://127.0.0.1:50817",
-    ],
+    ]
+
+    # 从环境变量获取生产环境的允许来源
+    allowed_origins = os.getenv("ALLOWED_ORIGINS", "")
+    if allowed_origins:
+        # 支持逗号分隔的多个域名
+        origins.extend([origin.strip() for origin in allowed_origins.split(",")])
+
+    print(f"🌐 允许的跨域来源: {origins}")
+    return origins
+
+
+app.add_middleware(
+    CORSMiddleware,
+    allow_origins=get_allowed_origins(),
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
