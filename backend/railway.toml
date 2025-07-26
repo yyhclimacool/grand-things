@@ -1,0 +1,10 @@
+[build]
+# 构建配置
+builder = "NIXPACKS"
+
+[deploy]
+# 部署配置
+startCommand = "python main.py"
+healthcheckPath = "/health"
+healthcheckTimeout = 60
+restartPolicyType = "ON_FAILURE" 
