@@ -1,12 +1,11 @@
+import { API_CONFIG } from '@/config/api'
 import axios from 'axios'
 
 // 创建axios实例
 const api = axios.create({
-  baseURL: '/api',
-  timeout: 10000,
-  headers: {
-    'Content-Type': 'application/json'
-  }
+  baseURL: API_CONFIG.BASE_URL,
+  timeout: API_CONFIG.TIMEOUT,
+  headers: API_CONFIG.HEADERS
 })
 
 // 请求拦截器
