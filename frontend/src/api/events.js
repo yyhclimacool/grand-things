@@ -55,7 +55,7 @@ api.interceptors.response.use(
 export const eventAPI = {
   // 创建事件
   async createEvent(eventData) {
-    return await api.post('/events/', eventData)
+    return await api.post('/api/events/', eventData)
   },
 
   // 获取时间线
@@ -66,7 +66,7 @@ export const eventAPI = {
       size: size.toString(),
       ...(category && { category })
     })
-    return await api.get(`/events/timeline?${query}`)
+    return await api.get(`/api/events/timeline?${query}`)
   },
 
   // 搜索事件
@@ -80,32 +80,32 @@ export const eventAPI = {
     if (start_date) searchParams.append('start_date', start_date)
     if (end_date) searchParams.append('end_date', end_date)
     
-    return await api.get(`/events/search?${searchParams}`)
+    return await api.get(`/api/events/search?${searchParams}`)
   },
 
   // 获取事件详情
   async getEvent(eventId) {
-    return await api.get(`/events/${eventId}`)
+    return await api.get(`/api/events/${eventId}`)
   },
 
   // 更新事件
   async updateEvent(eventId, eventData) {
-    return await api.put(`/events/${eventId}`, eventData)
+    return await api.put(`/api/events/${eventId}`, eventData)
   },
 
   // 删除事件
   async deleteEvent(eventId) {
-    return await api.delete(`/events/${eventId}`)
+    return await api.delete(`/api/events/${eventId}`)
   },
 
   // 获取分类统计
   async getCategoriesStats() {
-    return await api.get('/events/stats/categories')
+    return await api.get('/api/events/stats/categories')
   },
 
   // 获取时间线统计
   async getTimelineStats() {
-    return await api.get('/events/stats/timeline')
+    return await api.get('/api/events/stats/timeline')
   }
 }
 
