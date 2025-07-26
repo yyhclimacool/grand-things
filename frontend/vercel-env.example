@@ -1,0 +1,15 @@
+# Vercel 环境变量配置示例
+# 在 Vercel Dashboard 中设置这些环境变量
+
+# 后端 API 地址（必需）
+VITE_API_URL=https://grand-things-production.up.railway.app
+
+# 应用配置（可选）
+VITE_APP_TITLE=Grand Things - 大事记
+VITE_APP_VERSION=1.0.0
+VITE_APP_DESCRIPTION=现代化的个人大事记管理应用
+
+# 构建配置（Vercel 自动设置）
+# NODE_ENV=production
+# VERCEL=1
+# VERCEL_ENV=production 

@@ -7,7 +7,13 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "serve": "vite preview --port 4173"
+    "serve": "vite preview --port 4173",
+    "vercel-build": "vite build",
+    "vercel-dev": "vite dev --port 3000",
+    "check-env": "node scripts/check-env.js",
+    "deploy-check": "node scripts/deploy-check.js",
+    "pre-deploy": "npm run deploy-check && npm run build",
+    "postinstall": "node scripts/check-env.js || true"
   },
   "dependencies": {
     "vue": "^3.3.11",

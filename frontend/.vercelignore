@@ -1,0 +1,34 @@
+# Vercel 忽略文件
+# 这些文件和目录不会被上传到 Vercel
+
+# 开发文件
+node_modules
+.env
+.env.local
+.env.*.local
+
+# 构建文件
+dist
+
+# 日志文件
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# IDE 文件
+.vscode
+.idea
+*.swp
+*.swo
+
+# 操作系统文件
+.DS_Store
+Thumbs.db
+
+# 测试文件
+coverage
+.nyc_output
+
+# 临时文件
+.tmp
+.temp 
