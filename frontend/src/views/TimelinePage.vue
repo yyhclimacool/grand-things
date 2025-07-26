@@ -1107,14 +1107,96 @@ function setupInfiniteScroll() {
 
   .el-dialog__body {
     padding: 0;
+    background: var(--bg-primary);
+  }
+}
+
+// 深色主题特殊适配
+html.theme-dark :deep(.event-detail-dialog) {
+  .el-dialog {
+    background: #1a1a1a;
+    color: #ffffff;
+  }
+
+  .el-dialog__body {
+    background: #1a1a1a;
+    color: #ffffff;
+  }
+}
+
+html.theme-dark .event-detail-content {
+  background: #1a1a1a;
+  color: #ffffff;
+
+  .event-detail {
+    background: #1a1a1a;
+    color: #ffffff;
+
+    .event-header {
+      .event-meta {
+        .event-date {
+          color: #a0a0a0;
+        }
+      }
+
+      .event-title {
+        color: #ffffff;
+      }
+    }
+
+    .event-description {
+      h3 {
+        color: #ffffff;
+      }
+
+      p {
+        color: #e0e0e0;
+      }
+    }
+
+    .event-tags-section {
+      h3 {
+        color: #ffffff;
+      }
+
+      .tags-container {
+        .tag-item {
+          color: #ffffff;
+          background: rgba(255, 255, 255, 0.1);
+          border: 1px solid rgba(255, 255, 255, 0.2);
+
+          &:hover {
+            background: rgba(255, 255, 255, 0.15);
+          }
+        }
+      }
+    }
+
+    .event-impact-section {
+      h3 {
+        color: #ffffff;
+      }
+
+      .impact-display {
+        .el-rate {
+          :deep(.el-rate__text) {
+            color: #e0e0e0;
+          }
+        }
+      }
+    }
   }
 }
 
 .event-detail-content {
   min-height: 200px;
+  background: var(--bg-primary);
+  color: var(--text-primary);
 
   .event-detail {
     padding: 32px;
+    background: var(--bg-primary);
+    color: var(--text-primary);
 
     .event-header {
       margin-bottom: 32px;
