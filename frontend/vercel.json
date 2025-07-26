@@ -47,13 +47,10 @@
     }
   ],
   "name": "grand-things-frontend",
-  "routes": [
+  "rewrites": [
     {
-      "handle": "filesystem"
-    },
-    {
-      "dest": "/index.html",
-      "src": "/(.*)"
+      "destination": "/index.html",
+      "source": "/((?!api).*)"
     }
   ],
   "version": 2
