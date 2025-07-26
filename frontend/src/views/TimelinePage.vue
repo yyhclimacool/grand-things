@@ -76,15 +76,28 @@
           
           <!-- 事件卡片 -->
           <div class="timeline-card" @click="viewEventDetail(event.id)">
-            <div class="card-header">
-              <div class="event-date">{{ formatDate(event.event_date) }}</div>
-              <div class="event-category" :style="{ color: getCategoryColor(event.category) }">
-                {{ event.category }}
+            <div class="tools">
+              <div class="circle">
+                <span class="red box"></span>
+              </div>
+              <div class="circle">
+                <span class="yellow box"></span>
+              </div>
+              <div class="circle">
+                <span class="green box"></span>
               </div>
             </div>
-            
-            <h3 class="event-title">{{ event.title }}</h3>
+            <div class="card__content">
+              <div class="card-header">
+                <div class="event-date">{{ formatDate(event.event_date) }}</div>
+                <div class="event-category" :style="{ color: getCategoryColor(event.category) }">
+                  {{ event.category }}
+                </div>
+              </div>
+              
+              <h3 class="event-title">{{ event.title }}</h3>
             </div>
+          </div>
         </div>
       </div>
 
@@ -111,15 +124,28 @@
                 :class="{ 'card-above': index % 2 === 0, 'card-below': index % 2 === 1 }"
                 @click="viewEventDetail(event.id)"
               >
-            <div class="card-header">
-                  <div class="event-date">{{ formatShortDate(event.event_date) }}</div>
-                  <div class="event-category" :style="{ color: getCategoryColor(event.category) }">
-                    {{ event.category }}
-            </div>
-            </div>
-            
-                <h3 class="event-title">{{ event.title }}</h3>
-            </div>
+                <div class="tools">
+                  <div class="circle">
+                    <span class="red box"></span>
+                  </div>
+                  <div class="circle">
+                    <span class="yellow box"></span>
+                  </div>
+                  <div class="circle">
+                    <span class="green box"></span>
+                  </div>
+                </div>
+                <div class="card__content">
+                  <div class="card-header">
+                    <div class="event-date">{{ formatShortDate(event.event_date) }}</div>
+                    <div class="event-category" :style="{ color: getCategoryColor(event.category) }">
+                      {{ event.category }}
+                    </div>
+                  </div>
+                  
+                  <h3 class="event-title">{{ event.title }}</h3>
+                </div>
+              </div>
             
               <!-- 连接线 -->
               <div class="connection-line" :class="{ 'line-above': index % 2 === 0, 'line-below': index % 2 === 1 }"></div>
@@ -697,48 +723,86 @@ function setupInfiniteScroll() {
     .timeline-card {
       flex: 1;
       max-width: calc(50% - 44px);
-      background: var(--bg-primary);
-      border-radius: 12px;
-      padding: 16px 20px;
+      min-height: 120px;
+      background-color: #011522;
+      border-radius: 8px;
       cursor: pointer;
       transition: all 0.3s ease;
       box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
+      overflow: hidden;
 
       &:hover {
         transform: translateY(-3px);
-        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+        box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
       }
 
-      .card-header {
+      .tools {
         display: flex;
-        justify-content: space-between;
         align-items: center;
-        margin-bottom: 10px;
+        padding: 9px;
 
-        .event-date {
-          font-size: 12px;
-          color: var(--text-light);
+        .circle {
+          padding: 0 4px;
         }
 
-        .event-category {
-          font-size: 12px;
-          font-weight: 600;
-          padding: 2px 8px;
-          border-radius: 12px;
-          background: rgba(255, 255, 255, 0.1);
+        .box {
+          display: inline-block;
+          align-items: center;
+          width: 10px;
+          height: 10px;
+          padding: 1px;
+          border-radius: 50%;
+        }
+
+        .red {
+          background-color: #ff605c;
+        }
+
+        .yellow {
+          background-color: #ffbd44;
+        }
+
+        .green {
+          background-color: #00ca4e;
         }
       }
 
-      .event-title {
-        font-size: 16px;
-        font-weight: 600;
-        color: var(--text-primary);
-        margin: 0;
-        line-height: 1.4;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
+      .card__content {
+        padding: 0 16px 16px 16px;
+        height: calc(100% - 28px);
+
+        .card-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-bottom: 8px;
+
+          .event-date {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+          }
+
+          .event-category {
+            font-size: 11px;
+            font-weight: 600;
+            padding: 2px 6px;
+            border-radius: 8px;
+            background: rgba(0, 202, 78, 0.15);
+            color: #00ca4e;
+          }
+        }
+
+        .event-title {
+          font-size: 14px;
+          font-weight: 600;
+          color: white;
+          margin: 0;
+          line-height: 1.3;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
       }
     }
   }
@@ -806,14 +870,15 @@ function setupInfiniteScroll() {
           position: absolute;
           left: 50%;
           width: 220px;
+          min-height: 100px;
           transform: translateX(-50%);
-      background: var(--bg-primary);
-          border-radius: 12px;
-          padding: 12px 16px;
+          background-color: #011522;
+          border-radius: 8px;
           cursor: pointer;
           transition: all 0.3s ease;
           box-shadow: 0 4px 16px rgba(0, 0, 0, 0.08);
           z-index: 2;
+          overflow: hidden;
 
           &.card-above {
             bottom: 44px;
@@ -825,39 +890,76 @@ function setupInfiniteScroll() {
 
           &:hover {
             transform: translateX(-50%) translateY(-3px);
-            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
-      }
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+          }
 
-          .card-header {
-        display: flex;
-            justify-content: space-between;
+          .tools {
+            display: flex;
             align-items: center;
-            margin-bottom: 8px;
+            padding: 9px;
 
-        .event-date {
-              font-size: 11px;
-          color: var(--text-light);
-        }
+            .circle {
+              padding: 0 4px;
+            }
 
-        .event-category {
-              font-size: 10px;
-          font-weight: 600;
-              padding: 2px 6px;
-              border-radius: 8px;
-              background: rgba(255, 255, 255, 0.1);
-        }
-      }
+            .box {
+              display: inline-block;
+              align-items: center;
+              width: 10px;
+              height: 10px;
+              padding: 1px;
+              border-radius: 50%;
+            }
 
-          .event-title {
-            font-size: 14px;
-            font-weight: 600;
-            color: var(--text-primary);
-            margin: 0;
-            line-height: 1.3;
-            display: -webkit-box;
-            -webkit-line-clamp: 2;
-            -webkit-box-orient: vertical;
-            overflow: hidden;
+            .red {
+              background-color: #ff605c;
+            }
+
+            .yellow {
+              background-color: #ffbd44;
+            }
+
+            .green {
+              background-color: #00ca4e;
+            }
+          }
+
+          .card__content {
+            padding: 0 12px 12px 12px;
+            height: calc(100% - 28px);
+
+            .card-header {
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              margin-bottom: 6px;
+
+              .event-date {
+                font-size: 10px;
+                color: rgba(255, 255, 255, 0.6);
+              }
+
+              .event-category {
+                font-size: 9px;
+                font-weight: 600;
+                padding: 2px 4px;
+                border-radius: 6px;
+                background: rgba(0, 202, 78, 0.15);
+                color: #00ca4e;
+              }
+            }
+
+            .event-title {
+              font-size: 12px;
+              font-weight: 600;
+              color: white;
+              margin: 0;
+              line-height: 1.3;
+              display: -webkit-box;
+              -webkit-line-clamp: 2;
+              -webkit-box-orient: vertical;
+              overflow: hidden;
+            }
           }
         }
       }

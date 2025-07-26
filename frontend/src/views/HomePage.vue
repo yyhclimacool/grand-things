@@ -86,32 +86,45 @@
           class="event-card"
           @click="$router.push(`/event/${event.id}`)"
         >
-          <div class="event-header">
-            <h3 class="event-title">{{ event.title }}</h3>
-            <span class="event-date">
-              {{ formatDate(event.event_date) }}
-            </span>
+          <div class="tools">
+            <div class="circle">
+              <span class="red box"></span>
+            </div>
+            <div class="circle">
+              <span class="yellow box"></span>
+            </div>
+            <div class="circle">
+              <span class="green box"></span>
+            </div>
           </div>
-          <p class="event-description">{{ event.description }}</p>
-          <div class="event-tags">
-            <span 
-              v-for="tag in parseEventTags(event.tags)" 
-              :key="tag"
-              class="tag"
-              :class="`tag-${getCategoryByTag(tag)}`"
-            >
-              {{ tag }}
-            </span>
-          </div>
-          <div class="event-footer">
-            <span class="event-category">{{ event.category }}</span>
-            <div class="event-rating">
-              <el-rate 
-                :model-value="event.impact_score / 2" 
-                disabled 
-                size="small"
-                show-score
-              />
+          <div class="card__content">
+            <div class="event-header">
+              <h3 class="event-title">{{ event.title }}</h3>
+              <span class="event-date">
+                {{ formatDate(event.event_date) }}
+              </span>
+            </div>
+            <p class="event-description">{{ event.description }}</p>
+            <div class="event-tags">
+              <span 
+                v-for="tag in parseEventTags(event.tags)" 
+                :key="tag"
+                class="tag"
+                :class="`tag-${getCategoryByTag(tag)}`"
+              >
+                {{ tag }}
+              </span>
+            </div>
+            <div class="event-footer">
+              <span class="event-category">{{ event.category }}</span>
+              <div class="event-rating">
+                <el-rate 
+                  :model-value="event.impact_score / 2" 
+                  disabled 
+                  size="small"
+                  show-score
+                />
+              </div>
             </div>
           </div>
         </div>
@@ -475,73 +488,141 @@ function getCategoryByTag(tag) {
 
   .events-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
     gap: 24px;
+    justify-items: center;
 
     .event-card {
-      background: var(--bg-primary);
-      border-radius: var(--border-radius);
-      padding: 24px;
+      width: 190px;
+      height: 254px;
+      background-color: #011522;
+      border-radius: 8px;
+      z-index: 1;
       cursor: pointer;
       transition: all 0.3s ease;
+      overflow: hidden;
 
       &:hover {
         transform: translateY(-4px);
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
       }
 
-      .event-header {
+      .tools {
         display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        margin-bottom: 12px;
-
-        .event-title {
-          font-size: 18px;
-          font-weight: 600;
-          color: var(--text-primary);
-          flex: 1;
-          margin-right: 12px;
-        }
-
-        .event-date {
-          font-size: 14px;
-          color: var(--text-light);
-          flex-shrink: 0;
-        }
-      }
-
-      .event-description {
-        color: var(--text-secondary);
-        line-height: 1.5;
-        margin-bottom: 16px;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-      }
-
-      .event-tags {
-        margin-bottom: 16px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-      }
-
-      .event-footer {
-        display: flex;
-        justify-content: space-between;
         align-items: center;
+        padding: 9px;
 
-        .event-category {
-          font-size: 14px;
-          font-weight: 500;
-          color: var(--primary-color);
+        .circle {
+          padding: 0 4px;
         }
 
-        .event-rating {
-          :deep(.el-rate) {
-            height: auto;
+        .box {
+          display: inline-block;
+          align-items: center;
+          width: 10px;
+          height: 10px;
+          padding: 1px;
+          border-radius: 50%;
+        }
+
+        .red {
+          background-color: #ff605c;
+        }
+
+        .yellow {
+          background-color: #ffbd44;
+        }
+
+        .green {
+          background-color: #00ca4e;
+        }
+      }
+
+      .card__content {
+        padding: 0 16px 16px 16px;
+        height: calc(100% - 28px);
+        overflow: hidden;
+
+        .event-header {
+          display: flex;
+          flex-direction: column;
+          align-items: flex-start;
+          margin-bottom: 8px;
+
+          .event-title {
+            font-size: 14px;
+            font-weight: 600;
+            color: white;
+            margin-bottom: 4px;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+          }
+
+          .event-date {
+            font-size: 11px;
+            color: rgba(255, 255, 255, 0.6);
+          }
+        }
+
+        .event-description {
+          color: rgba(255, 255, 255, 0.8);
+          line-height: 1.4;
+          margin-bottom: 12px;
+          font-size: 12px;
+          display: -webkit-box;
+          -webkit-line-clamp: 3;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+
+        .event-tags {
+          margin-bottom: 12px;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 4px;
+
+          .tag {
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.15);
+            color: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+          }
+        }
+
+        .event-footer {
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          margin-top: auto;
+
+          .event-category {
+            font-size: 11px;
+            font-weight: 500;
+            color: #00ca4e;
+            background: rgba(0, 202, 78, 0.15);
+            padding: 2px 6px;
+            border-radius: 8px;
+          }
+
+          .event-rating {
+            :deep(.el-rate) {
+              height: auto;
+              
+              .el-rate__item {
+                font-size: 12px;
+                margin-right: 2px;
+              }
+              
+              .el-rate__text {
+                font-size: 10px;
+                color: rgba(255, 255, 255, 0.7);
+              }
+            }
           }
         }
       }
@@ -697,14 +778,23 @@ function getCategoryByTag(tag) {
     font-size: 36px;
   }
 
-  .events-grid {
-    grid-template-columns: 1fr;
+  .recent-events-section .events-grid {
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: 16px;
+    padding: 0 10px;
   }
 
   .section-header {
     flex-direction: column;
     gap: 16px;
     text-align: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .recent-events-section .events-grid {
+    grid-template-columns: 1fr;
+    justify-items: center;
   }
 }
 </style> 

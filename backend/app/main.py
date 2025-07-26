@@ -18,6 +18,7 @@ app.add_middleware(
         "http://localhost:3000",  # React默认端口
         "http://localhost:5173",  # Vite默认端口
         "http://localhost:50817",  # 当前前端端口
+        "http://localhost:55361",  # 当前前端端口
         "http://127.0.0.1:3000",
         "http://127.0.0.1:5173",
         "http://127.0.0.1:50817",

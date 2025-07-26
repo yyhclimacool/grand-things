@@ -138,46 +138,59 @@
           class="event-item"
           @click="viewEventDetail(event.id)"
         >
-          <div class="event-header">
-            <h3 class="event-title" v-html="highlightKeyword(event.title)"></h3>
-            <div class="event-meta">
-              <span class="event-date">{{ formatDate(event.event_date) }}</span>
-              <span class="event-category" :style="{ color: getCategoryColor(event.category) }">
-                {{ event.category }}
-              </span>
+          <div class="tools">
+            <div class="circle">
+              <span class="red box"></span>
+            </div>
+            <div class="circle">
+              <span class="yellow box"></span>
+            </div>
+            <div class="circle">
+              <span class="green box"></span>
             </div>
           </div>
-          
-          <p class="event-description" v-html="highlightKeyword(event.description)"></p>
-          
-          <div class="event-tags">
-            <span 
-              v-for="tag in parseEventTags(event.tags)" 
-              :key="tag"
-              class="tag"
-              :class="`tag-${getCategoryByTag(tag)}`"
-              @click.stop="searchByTag(tag)"
-            >
-              {{ tag }}
-            </span>
-          </div>
-          
-          <div class="event-footer">
-            <div class="event-impact">
-              <el-rate 
-                :model-value="event.impact_score / 2" 
-                disabled 
-                size="small"
-              />
+          <div class="card__content">
+            <div class="event-header">
+              <h3 class="event-title" v-html="highlightKeyword(event.title)"></h3>
+              <div class="event-meta">
+                <span class="event-date">{{ formatDate(event.event_date) }}</span>
+                <span class="event-category" :style="{ color: getCategoryColor(event.category) }">
+                  {{ event.category }}
+                </span>
+              </div>
             </div>
             
-            <div class="event-actions">
-              <el-button size="small" text @click.stop="editEvent(event)">
-                编辑
-              </el-button>
-              <el-button size="small" text type="danger" @click.stop="deleteEvent(event)">
-                删除
-              </el-button>
+            <p class="event-description" v-html="highlightKeyword(event.description)"></p>
+            
+            <div class="event-tags">
+              <span 
+                v-for="tag in parseEventTags(event.tags)" 
+                :key="tag"
+                class="tag"
+                :class="`tag-${getCategoryByTag(tag)}`"
+                @click.stop="searchByTag(tag)"
+              >
+                {{ tag }}
+              </span>
+            </div>
+            
+            <div class="event-footer">
+              <div class="event-impact">
+                <el-rate 
+                  :model-value="event.impact_score / 2" 
+                  disabled 
+                  size="small"
+                />
+              </div>
+              
+              <div class="event-actions">
+                <el-button size="small" text @click.stop="editEvent(event)">
+                  编辑
+                </el-button>
+                <el-button size="small" text type="danger" @click.stop="deleteEvent(event)">
+                  删除
+                </el-button>
+              </div>
             </div>
           </div>
         </div>
@@ -749,36 +762,115 @@ function getCategoryColor(category) {
   }
 
   .events-list {
-    display: flex;
-    flex-direction: column;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 20px;
 
     .event-item {
-      background: var(--bg-primary);
-      border-radius: 12px;
-      padding: 24px;
+      background-color: #011522;
+      border-radius: 8px;
       cursor: pointer;
       transition: all 0.3s ease;
-      border: 1px solid transparent;
+      min-height: 200px;
+      overflow: hidden;
 
       &:hover {
         transform: translateY(-2px);
-        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.1);
-        border-color: var(--primary-color);
+        box-shadow: 0 12px 30px rgba(0, 0, 0, 0.3);
       }
 
-      .event-header {
+      .tools {
         display: flex;
-        justify-content: space-between;
-        align-items: flex-start;
-        margin-bottom: 12px;
+        align-items: center;
+        padding: 9px;
 
-        .event-title {
-          font-size: 18px;
-          font-weight: 600;
-          color: var(--text-primary);
-          flex: 1;
-          margin-right: 20px;
+        .circle {
+          padding: 0 4px;
+        }
+
+        .box {
+          display: inline-block;
+          align-items: center;
+          width: 10px;
+          height: 10px;
+          padding: 1px;
+          border-radius: 50%;
+        }
+
+        .red {
+          background-color: #ff605c;
+        }
+
+        .yellow {
+          background-color: #ffbd44;
+        }
+
+        .green {
+          background-color: #00ca4e;
+        }
+      }
+
+      .card__content {
+        padding: 0 16px 16px 16px;
+        height: calc(100% - 28px);
+
+        .event-header {
+          display: flex;
+          justify-content: space-between;
+          align-items: flex-start;
+          margin-bottom: 12px;
+
+          .event-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: white;
+            flex: 1;
+            margin-right: 15px;
+            line-height: 1.3;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+
+            :deep(mark) {
+              background: var(--accent-color);
+              color: white;
+              padding: 2px 4px;
+              border-radius: 4px;
+            }
+          }
+
+          .event-meta {
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 4px;
+
+            .event-date {
+              font-size: 11px;
+              color: rgba(255, 255, 255, 0.6);
+            }
+
+            .event-category {
+              font-size: 11px;
+              font-weight: 600;
+              padding: 2px 6px;
+              border-radius: 8px;
+              background: rgba(0, 202, 78, 0.15);
+              color: #00ca4e;
+            }
+          }
+        }
+
+        .event-description {
+          color: rgba(255, 255, 255, 0.8);
+          line-height: 1.5;
+          margin-bottom: 12px;
+          font-size: 13px;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
 
           :deep(mark) {
             background: var(--accent-color);
@@ -788,64 +880,65 @@ function getCategoryColor(category) {
           }
         }
 
-        .event-meta {
+        .event-tags {
+          margin-bottom: 12px;
           display: flex;
-          flex-direction: column;
-          align-items: flex-end;
+          flex-wrap: wrap;
           gap: 4px;
 
-          .event-date {
-            font-size: 13px;
-            color: var(--text-light);
-          }
+          .tag {
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 10px;
+            background: rgba(255, 255, 255, 0.15);
+            color: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: all 0.2s ease;
 
-          .event-category {
-            font-size: 13px;
-            font-weight: 600;
-          }
-        }
-      }
-
-      .event-description {
-        color: var(--text-secondary);
-        line-height: 1.6;
-        margin-bottom: 16px;
-        display: -webkit-box;
-        -webkit-line-clamp: 2;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
-
-        :deep(mark) {
-            background: var(--accent-color);
-            color: white;
-            padding: 2px 4px;
-            border-radius: 4px;
-          }
-      }
-
-      .event-tags {
-        margin-bottom: 16px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 6px;
-
-        .tag {
-          transition: all 0.2s ease;
-
-          &:hover {
-            transform: scale(1.1);
+            &:hover {
+              transform: scale(1.1);
+              background: rgba(255, 255, 255, 0.25);
+            }
           }
         }
-      }
 
-      .event-footer {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-
-        .event-actions {
+        .event-footer {
           display: flex;
-          gap: 8px;
+          justify-content: space-between;
+          align-items: center;
+          margin-top: auto;
+
+          .event-impact {
+            :deep(.el-rate) {
+              .el-rate__item {
+                font-size: 12px;
+                margin-right: 2px;
+              }
+            }
+          }
+
+          .event-actions {
+            display: flex;
+            gap: 6px;
+
+            .el-button {
+              font-size: 11px;
+              padding: 4px 8px;
+              color: rgba(255, 255, 255, 0.7);
+
+              &:hover {
+                color: white;
+              }
+
+              &.el-button--danger {
+                color: rgba(255, 99, 92, 0.8);
+
+                &:hover {
+                  color: #ff605c;
+                }
+              }
+            }
+          }
         }
       }
     }
@@ -1011,23 +1104,31 @@ function getCategoryColor(category) {
     padding: 20px;
   }
 
-  .events-list .event-item {
-    padding: 16px;
+  .search-results .events-list {
+    grid-template-columns: 1fr;
+    gap: 16px;
 
-    .event-header {
-      flex-direction: column;
-      align-items: stretch;
+    .event-item {
+      min-height: auto;
 
-      .event-meta {
-        flex-direction: row;
-        justify-content: space-between;
-        margin-top: 8px;
+      .card__content {
+        .event-header {
+          flex-direction: column;
+          align-items: stretch;
+
+          .event-meta {
+            flex-direction: row;
+            justify-content: space-between;
+            margin-top: 8px;
+          }
+        }
+
+        .event-footer {
+          flex-direction: column;
+          gap: 12px;
+          align-items: stretch;
+        }
       }
-    }
-
-    .event-footer {
-      flex-direction: column;
-      gap: 16px;
     }
   }
 
