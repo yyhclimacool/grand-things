@@ -17,13 +17,51 @@ import os
 # 数据库文件路径 - 支持环境变量
 DATABASE_URL = os.getenv("DATABASE_URL", "sqlite:///./grand_things.db")
 
+print(f"🔧 数据库URL配置: {DATABASE_URL}")
+
 # 确保数据目录存在
 if DATABASE_URL.startswith("sqlite:///"):
+    # 正确解析数据库路径
     db_path = DATABASE_URL.replace("sqlite:///", "")
+
+    # 如果路径不是绝对路径，转为绝对路径
+    if not os.path.isabs(db_path):
+        db_path = os.path.abspath(db_path)
+
+    print(f"📍 数据库文件路径: {db_path}")
+
+    # 获取数据库目录
     db_dir = os.path.dirname(db_path)
+    print(f"📁 数据库目录: {db_dir}")
+
+    # 检查目录是否存在
     if db_dir and not os.path.exists(db_dir):
-        os.makedirs(db_dir, exist_ok=True)
-        print(f"📁 创建数据库目录: {db_dir}")
+        try:
+            os.makedirs(db_dir, exist_ok=True)
+            print(f"✅ 成功创建数据库目录: {db_dir}")
+        except Exception as e:
+            print(f"❌ 创建数据库目录失败: {e}")
+    else:
+        print(f"📂 数据库目录已存在: {db_dir}")
+
+    # 检查目录权限
+    if os.path.exists(db_dir):
+        is_writable = os.access(db_dir, os.W_OK)
+        print(f"✏️  目录可写权限: {is_writable}")
+
+        # 列出目录内容
+        try:
+            files = os.listdir(db_dir)
+            print(f"📋 目录内容: {files}")
+        except Exception as e:
+            print(f"❌ 无法列出目录内容: {e}")
+
+    # 检查数据库文件是否存在
+    if os.path.exists(db_path):
+        file_size = os.path.getsize(db_path)
+        print(f"📊 数据库文件已存在，大小: {file_size} bytes")
+    else:
+        print(f"🆕 数据库文件不存在，将创建新文件: {db_path}")
 
 # 创建数据库引擎
 engine = create_engine(DATABASE_URL, connect_args={"check_same_thread": False})
@@ -90,7 +128,26 @@ class Tag(Base):
 
 # 创建所有表
 def create_tables():
-    Base.metadata.create_all(bind=engine)
+    print("🏗️  开始创建数据库表...")
+    try:
+        Base.metadata.create_all(bind=engine)
+        print("✅ 数据库表创建成功")
+
+        # 验证数据库文件是否正确创建
+        if DATABASE_URL.startswith("sqlite:///"):
+            db_path = DATABASE_URL.replace("sqlite:///", "")
+            if not os.path.isabs(db_path):
+                db_path = os.path.abspath(db_path)
+
+            if os.path.exists(db_path):
+                file_size = os.path.getsize(db_path)
+                print(f"📊 数据库文件创建完成，大小: {file_size} bytes")
+            else:
+                print(f"⚠️  警告: 数据库文件可能未正确创建: {db_path}")
+
+    except Exception as e:
+        print(f"❌ 数据库表创建失败: {e}")
+        raise
 
 
 # 获取数据库会话

@@ -4,7 +4,7 @@ builder = "NIXPACKS"
 
 [deploy]
 # 部署配置
-startCommand = "python main.py"
+startCommand = "python init_db.py && python main.py"
 healthcheckPath = "/health"
 healthcheckTimeout = 60
 restartPolicyType = "ON_FAILURE" 
