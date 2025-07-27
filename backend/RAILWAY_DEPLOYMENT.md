@@ -35,9 +35,17 @@ git push origin main
    - 在部署配置中设置 **Root Directory** 为 `backend`
    - Railway 会自动检测到 Python 项目
    - 自动读取 `backend/railway.toml` 配置
-   - 自动安装 `requirements.txt` 中的依赖
+   - 使用 uv 自动安装 `pyproject.toml` 中的依赖
 
-### **第三步：配置环境变量**
+### **第三步：添加 PostgreSQL 数据库**
+
+1. **添加 PostgreSQL 插件**
+   - 在项目页面点击 "New Service" 
+   - 选择 "Database" → "Add PostgreSQL"
+   - PostgreSQL 数据库将自动创建并连接到你的项目
+   - `DATABASE_URL` 环境变量会自动设置
+
+### **第四步：配置环境变量**
 
 在 Railway Dashboard 中设置以下环境变量：
 
@@ -57,14 +65,13 @@ JWT_SECRET_KEY=your-jwt-secret-key-change-this-too
 JWT_ALGORITHM=HS256
 ACCESS_TOKEN_EXPIRE_MINUTES=30
 
-# 数据库配置
-DATABASE_URL=sqlite:///app/data/grand_things.db
-
 # 应用配置
 DEBUG=false
+
+# 注意：DATABASE_URL 由 PostgreSQL 插件自动提供，无需手动设置
 ```
 
-### **第四步：部署完成**
+### **第五步：部署完成**
 
 1. **获取 Railway URL**
    - 部署完成后，Railway 会提供一个类似这样的 URL：
@@ -75,6 +82,7 @@ DEBUG=false
 2. **测试部署**
    - 访问 `https://your-app.railway.app/health` 检查健康状态
    - 访问 `https://your-app.railway.app/docs` 查看 API 文档
+   - 检查数据库连接：应用启动日志会显示 PostgreSQL 连接状态
 
 ## 🔧 **Railway 自动处理的配置**
 
@@ -90,13 +98,20 @@ Railway 会自动设置以下环境变量：
 builder = "NIXPACKS"          # 使用 Nixpacks 构建器
 
 [deploy]
-startCommand = "python main.py"  # 启动命令（在 backend 目录中）
+# PostgreSQL 版本配置（使用 uv）
+startCommand = "uv sync && uv run python init_db.py && uv run python main.py"  # 同步依赖、初始化数据库、启动应用
 healthcheckPath = "/health"    # 健康检查路径
-healthcheckTimeout = 60        # 健康检查超时时间
+healthcheckTimeout = 300       # 健康检查超时时间（延长以适应数据库初始化）
 restartPolicyType = "ON_FAILURE"  # 重启策略
+
+[env]
+# DATABASE_URL 会由 PostgreSQL 插件自动提供
 ```
 
-**注意**：配置文件位于 `backend/railway.toml`，Railway 部署时需要设置 **Root Directory** 为 `backend`
+**注意**：
+- 配置文件位于 `backend/railway.toml`，Railway 部署时需要设置 **Root Directory** 为 `backend`
+- 应用启动前会自动运行数据库初始化脚本
+- PostgreSQL 连接URL由Railway自动管理
 
 ### **代码调整说明**
 
@@ -188,10 +203,12 @@ async def health():
 # 查看应用日志排查错误
 ```
 
-### **4. 数据库问题**
+### **4. 数据库连接问题**
 ```bash
-# SQLite 数据库会在容器中持久化
-# 如需备份，可以通过 Railway CLI 访问
+# 检查 PostgreSQL 插件是否正确添加
+# 确认 DATABASE_URL 环境变量已自动设置
+# 查看应用启动日志中的数据库连接状态
+# 如果连接失败，检查数据库服务是否正常运行
 ```
 
 ## 💡 **最佳实践**

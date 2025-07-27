@@ -3,8 +3,13 @@
 builder = "NIXPACKS"
 
 [deploy]
-# 部署配置
-startCommand = "python init_db.py && python main.py"
+# 部署配置 - PostgreSQL 版本（使用 uv）
+startCommand = "uv sync && uv run python init_db.py && uv run python main.py"
 healthcheckPath = "/health"
-healthcheckTimeout = 60
-restartPolicyType = "ON_FAILURE" 
+healthcheckTimeout = 300
+restartPolicyType = "ON_FAILURE"
+
+# PostgreSQL 相关配置
+[env]
+# 数据库连接将由 Railway PostgreSQL 插件自动提供
+# DATABASE_URL 会自动设置 

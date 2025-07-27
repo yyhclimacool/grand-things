@@ -1,0 +1,70 @@
+# Docker Compose 文件 - 本地开发环境
+# 注意：Docker Compose V2 不再需要 version 字段
+
+services:
+  # PostgreSQL 数据库
+  postgres:
+    image: postgres:16-alpine
+    container_name: grand-things-postgres
+    environment:
+      POSTGRES_DB: grand_things
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_INITDB_ARGS: "--encoding=UTF-8 --lc-collate=C --lc-ctype=C"
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      - ./db_init:/docker-entrypoint-initdb.d
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d grand_things"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - grand-things-network
+
+  # pgAdmin 数据库管理界面
+  pgadmin:
+    image: dpage/pgadmin4:latest
+    container_name: grand-things-pgadmin
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@grandthings.dev
+      PGADMIN_DEFAULT_PASSWORD: admin123
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+    ports:
+      - "8080:80"
+    volumes:
+      - pgadmin_data:/var/lib/pgadmin
+    depends_on:
+      postgres:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+      - grand-things-network
+
+  # Redis (可选，用于缓存)
+  redis:
+    image: redis:7-alpine
+    container_name: grand-things-redis
+    command: redis-server --appendonly yes
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+    networks:
+      - grand-things-network
+
+volumes:
+  postgres_data:
+    driver: local
+  pgadmin_data:
+    driver: local
+  redis_data:
+    driver: local
+
+networks:
+  grand-things-network:
+    driver: bridge 
