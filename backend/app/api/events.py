@@ -383,13 +383,26 @@ def extract_wechat_content(
         # 限制图片数量，避免过多
         images = images[:10]
 
-        # 如果没有提取到内容，返回错误
+        # 清理提取的内容，去除空白字符
+        title = title.strip() if title else ""
+        content = content.strip() if content else ""
+
+        # 如果没有提取到有效内容，返回错误
         if not title and not content:
-            raise HTTPException(status_code=400, detail="无法从该链接提取有效内容")
+            raise HTTPException(
+                status_code=400, detail="无法从该链接提取有效内容，请检查链接是否可访问"
+            )
+
+        # 如果只有很少的内容，也认为提取失败
+        if len(title) < 5 and len(content) < 20:
+            raise HTTPException(
+                status_code=400,
+                detail="提取到的内容过少，可能是链接已失效或需要登录访问",
+            )
 
         return WechatExtractResponse(
-            title=title[:200] if title else "未提取到标题",  # 限制标题长度
-            content=content[:1000] if content else "未提取到内容",  # 限制内容长度
+            title=title[:200] if title else "",  # 限制标题长度，不使用占位符
+            content=content[:1000] if content else "",  # 限制内容长度，不使用占位符
             images=images,
         )
 

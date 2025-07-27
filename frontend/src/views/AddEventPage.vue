@@ -469,8 +469,18 @@ async function extractWechatContent() {
   
   try {
     // 调用后端API提取内容
-    const response = await eventAPI.extractWechatContent(wechatUrl.value)
-    const data = response.data
+    const data = await eventAPI.extractWechatContent(wechatUrl.value)
+    
+    // 检查响应数据是否有效 (响应拦截器已经返回了data部分)
+    if (!data || typeof data !== 'object') {
+      throw new Error('服务器返回的数据格式不正确')
+    }
+    
+    // 检查是否成功提取到内容
+    if (!data.title && !data.content) {
+      ElMessage.warning('未能从该链接提取到有效内容，请检查链接是否正确')
+      return
+    }
     
     // 填充表单数据
     if (data.title) {
@@ -491,7 +501,22 @@ async function extractWechatContent() {
     
   } catch (error) {
     console.error('提取内容失败:', error)
-    ElMessage.error('提取内容失败，请检查链接是否有效')
+    
+    // 响应拦截器已经处理了错误，直接使用error.message
+    const errorMessage = error.message || '提取内容失败'
+    
+    // 根据错误信息提供更友好的提示
+    if (errorMessage.includes('数据格式')) {
+      ElMessage.error('服务器响应异常，请稍后重试')
+    } else if (errorMessage.includes('网络')) {
+      ElMessage.error('网络连接异常，请检查网络后重试')
+    } else if (errorMessage.includes('无法') || errorMessage.includes('失效')) {
+      ElMessage.error('无法访问该文章，请检查链接是否正确或已失效')
+    } else if (errorMessage.includes('过少') || errorMessage.includes('登录')) {
+      ElMessage.error('该文章可能需要登录访问或内容受限')
+    } else {
+      ElMessage.error(errorMessage)
+    }
   } finally {
     extracting.value = false
   }

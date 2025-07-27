@@ -21,6 +21,7 @@ def get_allowed_origins():
     origins = [
         "http://localhost:3000",  # React默认端口
         "http://localhost:5173",  # Vite默认端口
+        "http://localhost:55361",  # 本地代理端口
         "http://127.0.0.1:3000",
         "http://127.0.0.1:5173",
     ]
